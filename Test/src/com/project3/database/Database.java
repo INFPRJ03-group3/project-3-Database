@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.project3.database.draw.DrawGraph;
+import com.project3.database.draw.DrawMap;
 
 //http://www.rotterdam.nl/Clusters/RSO/Document2015/OBI/Publicaties/5005%20Feitenkaart%20Wijk%20en%20buurt%20RIO%202013.pdf
 
@@ -26,30 +26,33 @@ public class Database {
 			}
 			Statement st = con.createStatement();
 
-			ResultSet rs = st.executeQuery("SELECT * FROM Charlois");
+			ResultSet rs = st.executeQuery("SELECT * FROM Hillegersberg_schiebroek");
 			while (rs.next()) {
 				System.out.println(rs.getString(1) + "|" + rs.getString(2));
 								
 				crime_types.add(rs.getString(1));
-				crime_data.add(Integer.parseInt(rs.getString(2)));
+				crime_data.add(Integer.parseInt(rs.getString(2)));			
 				
-				
-				if (income_data.isEmpty()) {					
-					income_data.add(43160); 
-					income_data.add(4610); 
-				}
-
+			}
+			
+			ResultSet rs1 = st.executeQuery("SELECT amount_households, average_income from Regions WHERE name = 'Hillegersberg_schiebroek'");
+			while (rs1.next()) {
+				System.out.println(rs1.getString(1) + "|" + rs1.getString(2));
+								
+				income_data.add(Integer.parseInt(rs1.getString(1)));
+				income_data.add(Integer.parseInt(rs1.getString(2)));			
+			
 			}
 			rs.close();
+			rs1.close();
 			st.close();
 
-			// st.execute(sql);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		DrawGraph.main(args);		
+		
+		DrawMap.main(args);
 
 	}
 

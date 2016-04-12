@@ -14,8 +14,8 @@ import com.project3.database.Database;
 
 @SuppressWarnings("serial")
 public class DrawGraph extends JPanel {
-	ArrayList<Color> colors = new ArrayList<>();
-	// Image map = ImageIO.read(new File("image name and path"))
+	ArrayList<Color> colors = new ArrayList<>();	
+	static ArrayList<JFrame> frames = new ArrayList<>(); 
 
 	public DrawGraph() {
 		super();
@@ -104,7 +104,7 @@ public class DrawGraph extends JPanel {
 			g.setColor(Color.BLACK);
 
 			g.drawLine(1000, width / 40, 1000, height - 60);
-			g.drawLine(1000, height - 60, 1080, height - 60);
+			g.drawLine(1000, height - 60, 1160, height - 60);
 
 			g.drawString("Hoeveelheid", 970, 30);
 			g.drawString("^", 980, 50);
@@ -116,9 +116,18 @@ public class DrawGraph extends JPanel {
 			Integer x2 = width / 40 + 20;
 			Integer recy1 = 100;
 
-			g.drawString("Households", 1170, 120);
-			g.drawString("Average income ", 1170, 160);
-			g.drawString("per household", 1170, 177);
+			g.drawString("Households", 1270, 120);
+			g.drawString("Average income ", 1270, 160);
+			g.drawString("per household", 1270, 177);
+			
+			Integer scale = 55;
+			Integer i = Collections.max(Database.income_data);
+			
+			if (i <= 20000 && i > 10000) {
+				scale = scale / 2;
+			} else if (i <= 10000) {
+				scale = scale / 4; 
+			}		
 
 			Iterator<Color> color_iter = colors.iterator();
 
@@ -131,16 +140,16 @@ public class DrawGraph extends JPanel {
 					g.setColor(color);
 				}
 
-				g.drawRect(x1, y1 - (num / 55), x2, num / 55);
-				g.fillRect(x1, y1 - (num / 55), x2, num / 55);
-				g.drawString(num.toString(), x1 + 20, y1 - (num / 55 + 1));
+				g.drawRect(x1, y1 - (num / scale), x2, num / scale);
+				g.fillRect(x1, y1 - (num / scale), x2, num / scale);
+				g.drawString(num.toString(), x1 + 20, y1 - (num / scale));
 				x1 += 80;
 
 				g.drawRect(650, recy1, 60, 30);
 				g.fillRect(650, recy1, 60, 30);
 
-				g.drawRect(1100, recy1, 60, 30);
-				g.fillRect(1100, recy1, 60, 30);
+				g.drawRect(1200, recy1, 60, 30);
+				g.fillRect(1200, recy1, 60, 30);
 				g.setColor(Color.BLACK);
 				recy1 += 50;
 
@@ -177,16 +186,23 @@ public class DrawGraph extends JPanel {
 		return scale;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) {			
 		DrawGraph panel = new DrawGraph();
-		JFrame application = new JFrame();			
-
-		application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JFrame application = new JFrame();	
+		
+		frames.add(application); 	
+		
+		while (frames.size() > 1) {
+			frames.get(0).setVisible(false);
+			frames.remove(0); 
+		}
+		
+		application.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		application.add(panel);
 		application.setSize(2000, 960);		
 
 		application.setVisible(true);
-		application.setTitle("Graph");	
+		application.setTitle("Graph");		
 		
 
 	}
