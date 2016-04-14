@@ -1,8 +1,10 @@
 package com.project3.database.draw;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -15,11 +17,11 @@ import com.project3.database.Database;
 @SuppressWarnings("serial")
 public class DrawGraph extends JPanel {
 	ArrayList<Color> colors = new ArrayList<>();
-	static ArrayList<JFrame> frames = new ArrayList<>();
+	static ArrayList<JFrame> frames = new ArrayList<>();	
 
 	public DrawGraph() {
 		super();
-		setBackground(Color.WHITE);
+		setBackground(Color.WHITE);				
 
 		if (colors.isEmpty()) {
 			colors.add(Color.BLUE);
@@ -35,7 +37,7 @@ public class DrawGraph extends JPanel {
 
 	public void paintComponent(Graphics g) {
 		int width = getWidth();
-		int height = getHeight();
+		int height = getHeight() - 70;
 		super.paintComponent(g);
 
 		if (Database.crime_data.isEmpty() == false) {
@@ -86,11 +88,8 @@ public class DrawGraph extends JPanel {
 					g.drawString(crime_type, 720, recy1 + 20);
 
 				} else {
-					g.drawString(Database.crime_types.get(Database.crime_types.size() - 1).substring(0, 26), 720,
-							recy1 + 10);
-					g.drawString(
-							Database.crime_types.get(Database.crime_types.size() - 1).substring(26,
-									Database.crime_types.get(Database.crime_types.size() - 1).length()),
+					g.drawString(Database.crime_types.get(Database.crime_types.size() - 1).substring(0, 26), 720, recy1 + 10);
+					g.drawString(Database.crime_types.get(Database.crime_types.size() - 1).substring(26, Database.crime_types.get(Database.crime_types.size() - 1).length()),
 							720, recy1 + 30);
 				}
 
@@ -111,7 +110,7 @@ public class DrawGraph extends JPanel {
 			g.drawLine(1000, width / 40, 1000, height - 60);
 			g.drawLine(1000, height - 60, 1160, height - 60);
 
-			g.drawString("Hoeveelheid", 970, 30);
+			g.drawString("Amount", 970, 30);
 			g.drawString("^", 980, 50);
 			g.drawString("|", 982, 60);
 			g.drawString("|", 982, 70);
@@ -193,21 +192,24 @@ public class DrawGraph extends JPanel {
 
 	public static void main(String[] args) {
 		DrawGraph panel = new DrawGraph();
-		JFrame application = new JFrame();
+		JFrame application = new JFrame();		
 
 		frames.add(application);
 
 		while (frames.size() > 1) {
 			frames.get(0).setVisible(false);
 			frames.remove(0);
-		}
+		}			
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
 		application.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		application.add(panel);
-		application.setSize(2000, 960);
+		application.setSize(screenSize);		
 
 		application.setVisible(true);
-		application.setTitle("Graph " + DrawMap.current_region);
+		application.setTitle("Graph " + DrawMap.current_region);	
+		
 
 	}
 

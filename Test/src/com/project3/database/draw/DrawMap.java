@@ -1,7 +1,12 @@
 package com.project3.database.draw;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -17,7 +22,7 @@ import com.project3.database.Database;
 public class DrawMap extends JFrame {
 	private ImageIcon image1;
 	private JLabel label1;
-	private ArrayList<JButton> buttons = new ArrayList<>();
+	public static ArrayList<JButton> buttons = new ArrayList<>();
 	private ArrayList<String> queries = new ArrayList<>(); 
 	private HashMap<JButton, String> crime_queries = new HashMap<>();
 	private HashMap<JButton, String> income_queries = new HashMap<>();
@@ -27,8 +32,8 @@ public class DrawMap extends JFrame {
 
 	public DrawMap() {
 		image1 = new ImageIcon(getClass().getResource(texture));
-		label1 = new JLabel(image1);
-
+		label1 = new JLabel(image1);	
+		
 		showButtons();
 		
 		if (buttons.isEmpty() == false) {
@@ -40,37 +45,36 @@ public class DrawMap extends JFrame {
 			for (JButton button : buttons) {
 				add(button);
 			}
-		}
-		
-		addActions(buttons, queries);
-
-		add(label1);	
+		}		
+		addActions(buttons, queries);			
+		updateMap();		
 	}
+	
+	public void updateMap() {	 
+		remove(label1); //remove the old map texture
+		image1 = new ImageIcon(getClass().getResource(texture));
+		label1 = new JLabel(image1);	
+		add(label1);
+		validate(); //update the screen
+	}		
 
 	public void showButtons() {
-		createButton("Charlois", 190, 50, 50, 500);
-		createButton("Delfshaven", 190, 50, 50, 560);
-		createButton("Feijenoord", 190, 50, 50, 620);
-		createButton("Hillegersberg_Schiebroek", 190, 50, 50, 680);
-		createButton("Hoek_van_holland", 190, 50, 50, 740);
-		createButton("Hoogvliet", 190, 50, 50, 800);
-		createButton("Ijsselmonde", 190, 50, 50, 860);
-		createButton("Kralingen_Crooswijk", 190, 50, 250, 500);
-		createButton("Noord", 190, 50, 250, 560);
-		createButton("Overschie", 190, 50, 250, 620);
-		createButton("Pernis", 190, 50, 250, 680);
-		createButton("Prins_Alexander", 190, 50, 250, 740);
-		createButton("Rozenburg", 190, 50, 250, 800);
-		createButton("Stadscentrum", 190, 50, 250, 860);
+		DrawButton.createButton("Charlois", 190, 50, 50, 500, buttons);
+		DrawButton.createButton("Delfshaven", 190, 50, 50, 560, buttons);
+		DrawButton.createButton("Feijenoord", 190, 50, 50, 620, buttons);
+		DrawButton.createButton("Hillegersberg_Schiebroek", 190, 50, 50, 680, buttons);
+		DrawButton.createButton("Hoek_van_holland", 190, 50, 50, 740, buttons);
+		DrawButton.createButton("Hoogvliet", 190, 50, 50, 800, buttons);
+		DrawButton.createButton("Ijsselmonde", 190, 50, 50, 860, buttons);
+		DrawButton.createButton("Kralingen_Crooswijk", 190, 50, 250, 500, buttons);
+		DrawButton.createButton("Noord", 190, 50, 250, 560, buttons);
+		DrawButton.createButton("Overschie", 190, 50, 250, 620, buttons);
+		DrawButton.createButton("Pernis", 190, 50, 250, 680, buttons);
+		DrawButton.createButton("Prins_Alexander", 190, 50, 250, 740, buttons);
+		DrawButton.createButton("Rozenburg", 190, 50, 250, 800, buttons);
+		DrawButton.createButton("Stadscentrum", 190, 50, 250, 860, buttons);
 	}
-
-	private void createButton(String text, Integer size_x, Integer size_y, Integer pos_x, Integer pos_y) {
-		JButton button = new JButton(text);
-		button.setEnabled(true);
-		button.setSize(size_x, size_y);
-		button.setLocation(pos_x, pos_y);
-		buttons.add(button);
-	}
+	
 
 	private void addActions(ArrayList<JButton> buttons, ArrayList<String> queries) {			
 		for (JButton button : buttons) {			
@@ -82,10 +86,9 @@ public class DrawMap extends JFrame {
 						String value = entry.getValue();
 						if (key == button) {
 							Database.queries.clear();
-							Database.queries.add(value);	
-							current_region = button.getText();												
+							Database.queries.add(value); //Change the queries used (depends on what button is clicked) 	
+							current_region = button.getText(); //Is used to set the graph and screen title												
 						}
-
 					}
 					
 					for (Entry<JButton, String> entry : income_queries.entrySet()) {
@@ -93,9 +96,11 @@ public class DrawMap extends JFrame {
 						String value = entry.getValue();
 						if (key == button) {							
 							Database.queries.add(value);
-							System.out.println(value);
-							texture = button.getText() + ".png";
-							Database.main(null);
+							try {
+								Database.DrawGraph(); //Draw graphs for the region clicked 
+							} catch (SQLException e1) {								
+								e1.printStackTrace();
+							}
 						}
 
 					}					
@@ -104,19 +109,18 @@ public class DrawMap extends JFrame {
 				
 			});
 			
-//			button.addMouseMotionListener(new MouseMotionListener() {	
-//				String region_name = button.getText(); 
-//			
-//				public void mouseMoved(MouseEvent e) {
-//					System.out.println(region_name);
-//					
-//				}				
-//			
-//				public void mouseDragged(MouseEvent e) {
-//					System.out.println(region_name);
-//					
-//				}
-//			});
+			button.addMouseMotionListener(new MouseMotionListener() {					
+			
+				public void mouseMoved(MouseEvent e) { //Change map texture when the mouse is on a button (red areas)
+					texture = button.getText() + ".png";
+					updateMap();					
+				}				
+			
+				public void mouseDragged(MouseEvent e) {					
+					texture = button.getText() + ".png";
+					updateMap();						
+				}
+			});
 		}	
 		
 	}
@@ -161,15 +165,17 @@ public class DrawMap extends JFrame {
 		
 		frames.add(draw);
 
-		while (frames.size() > 1) {
+		while (frames.size() > 1) { //Close the old map screen
 			frames.get(0).setVisible(false);
 			frames.remove(0);
 		}
 		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
 		draw.showButtons();
 		draw.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		draw.setVisible(true);
-		draw.pack();
+		draw.setSize(screenSize);
 		draw.setTitle("Map");
 	}
 
