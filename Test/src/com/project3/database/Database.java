@@ -18,9 +18,12 @@ public class Database {
 	public static ArrayList<Integer> crime_data = new ArrayList<>();
 	public static ArrayList<String> crime_types = new ArrayList<>();
 	public static ArrayList<Integer> income_data = new ArrayList<>();
+	public static ArrayList<String> income_types = new ArrayList<>();
 	public static ArrayList<String> queries = new ArrayList<>();
 	public static ArrayList<JFrame> frames = new ArrayList<>();
 	public static ArrayList<Graph> graphs = new ArrayList<>();
+	
+	
 	private static Connection con;
 
 	public static void main(String[] args) {
@@ -43,18 +46,21 @@ public class Database {
 	
 	public static void DrawGraph() throws SQLException {
 		if (con != null) {
-			if (queries.isEmpty() == false) {
-				crime_data.clear();
-				income_data.clear();
+			if (queries.isEmpty() == false) {				
+				if (income_types.isEmpty()) {
+					income_types.add("HouseHolds");
+					income_types.add("Income");				
+				}				
 				graphs.clear();
-				frames.clear();
+				crime_data.clear();
+				crime_types.clear();
+				income_data.clear();				
 				Statement st = con.createStatement();
 
 				ResultSet rs = st.executeQuery(queries.get(0));
 				while (rs.next()) {	
 					crime_types.add(rs.getString(1));
 					crime_data.add(Integer.parseInt(rs.getString(2)));
-
 				}
 
 				ResultSet rs1 = st.executeQuery(queries.get(1));
@@ -62,13 +68,16 @@ public class Database {
 					income_data.add(Integer.parseInt(rs1.getString(1)));
 					income_data.add(Integer.parseInt(rs1.getString(2)));
 
+				} for (JFrame frame : frames) { //Close old screens
+					frame.dispose();					
 				}
-				Graph graph = new Graph(700, 800, 100, 100, crime_data, 20, DrawMap.current_region, "Percentage", "Crime type");
-				Graph graph2 = new Graph(200, 700, 800, 100, income_data, 20, DrawMap.current_region, "Amount", "Data");		
+				frames.clear();
+				  				
+				Graph graph = new Graph(700, 800, 100, 100, crime_data, 20, "CrimeTypes", "Percentage", "Crime type", crime_types);
+				Graph graph2 = new Graph(200, 800, 1300, 100, income_data, 20, "Households and Income", "Amount", "Data", income_types);		
 				graph.drawScreen();	
-				
-				
-				//DrawGraph.main(null);
+				graph2.drawScreen();			
+								
 				rs.close();
 				rs1.close();
 				st.close(); 

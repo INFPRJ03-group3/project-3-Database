@@ -32,9 +32,9 @@ public class DrawMap extends JFrame {
 
 	public DrawMap() {
 		image1 = new ImageIcon(getClass().getResource(texture));
-		label1 = new JLabel(image1);	
+		label1 = new JLabel(image1);			
 		
-		showButtons();
+		DrawButton.showMapButtons();
 		
 		if (buttons.isEmpty() == false) {
 			fill_crime_queries();
@@ -58,22 +58,6 @@ public class DrawMap extends JFrame {
 		validate(); //update the screen
 	}		
 
-	public void showButtons() {
-		DrawButton.createButton("Charlois", 190, 50, 50, 500, buttons);
-		DrawButton.createButton("Delfshaven", 190, 50, 50, 560, buttons);
-		DrawButton.createButton("Feijenoord", 190, 50, 50, 620, buttons);
-		DrawButton.createButton("Hillegersberg_Schiebroek", 190, 50, 50, 680, buttons);
-		DrawButton.createButton("Hoek_van_holland", 190, 50, 50, 740, buttons);
-		DrawButton.createButton("Hoogvliet", 190, 50, 50, 800, buttons);
-		DrawButton.createButton("Ijsselmonde", 190, 50, 50, 860, buttons);
-		DrawButton.createButton("Kralingen_Crooswijk", 190, 50, 250, 500, buttons);
-		DrawButton.createButton("Noord", 190, 50, 250, 560, buttons);
-		DrawButton.createButton("Overschie", 190, 50, 250, 620, buttons);
-		DrawButton.createButton("Pernis", 190, 50, 250, 680, buttons);
-		DrawButton.createButton("Prins_Alexander", 190, 50, 250, 740, buttons);
-		DrawButton.createButton("Rozenburg", 190, 50, 250, 800, buttons);
-		DrawButton.createButton("Stadscentrum", 190, 50, 250, 860, buttons);
-	}
 	
 
 	private void addActions(ArrayList<JButton> buttons, ArrayList<String> queries) {			
@@ -172,7 +156,7 @@ public class DrawMap extends JFrame {
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-		draw.showButtons();
+		DrawButton.showMapButtons();
 		draw.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		draw.setVisible(true);
 		draw.setSize(screenSize);

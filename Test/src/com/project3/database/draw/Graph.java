@@ -21,6 +21,7 @@ public class Graph extends JPanel {
 
 	ArrayList<Color> colors = new ArrayList<>();	
 	ArrayList<Integer> data = new ArrayList<>();
+	ArrayList<String> legend = new ArrayList<>();
 	Integer width;
 	Integer height;
 	Integer pos_x;
@@ -31,7 +32,7 @@ public class Graph extends JPanel {
 	String text_horizontal; 
 
 	public Graph(Integer width, Integer height, Integer pos_x, Integer pos_y, ArrayList<Integer> data, Integer space,
-			String graph_name, String text_vertical, String text_horizontal) {
+			String graph_name, String text_vertical, String text_horizontal, ArrayList<String> legend) {
 		super();
 		setBackground(Color.WHITE);
 
@@ -45,6 +46,7 @@ public class Graph extends JPanel {
 		this.graph_name = graph_name;
 		this.text_vertical = text_vertical;
 		this.text_horizontal = text_horizontal;
+		this.legend = legend; 
 		
 	}
 
@@ -62,83 +64,111 @@ public class Graph extends JPanel {
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
-		Integer bar_width = ((width + space) / data.size()) - space; //Calculate the width of every bar
-		Integer bar_x = pos_x + space/3;
-
-		Iterator<Integer> data_iter = data.iterator(); 
-		Iterator<Color> color_iter = colors.iterator();
 		
-		Integer graph_name_size = (width + height)/ 50;
-		g.setFont(new Font(null, Font.BOLD, graph_name_size)); //Change text_size		
-		g.drawString(graph_name, pos_x + width/2, pos_y); //Set the graph_name
-
-		Integer i = Collections.max(data); //Calc the max value in the list
-
-		while (data_iter.hasNext()) {
-			if (color_iter.hasNext()) { 
-				Color color = color_iter.next();
-				g.setColor(color); //Use a list with colors to change the color of every bar
-			}			
-			Integer data = data_iter.next(); 
-
-			Integer bar_height = ((data * height) / i); //Adapt the bar height to the highest value in the data list			
+		for (Graph graph : Database.graphs) {		
+			Integer bar_width = ((graph.width + graph.space) / graph.data.size()) - graph.space; //Calculate the width of every bar
+			Integer bar_x = graph.pos_x + graph.space/3;
 			
-			g.drawRect(bar_x, (height - bar_height + pos_y), bar_width, bar_height); //Draw the bar
-			g.fillRect(bar_x, height - bar_height + pos_y, bar_width, bar_height);
+			Integer legend_height;
+			if (50 * graph.legend.size() < graph.height) {
+				legend_height = 50 + ((graph.height/60)+ graph.space);
+			} else {
+				legend_height = ((graph.height + graph.space) / graph.legend.size()) - graph.space; //Calc legend_height of every bar
+			}
 			
-			g.setFont(new Font(null, Font.BOLD, (width + height)/ 80));
-			g.drawString(data.toString(), bar_x + bar_width/3, height - bar_height + pos_y); //Draw value above every bar 
+			Integer legend_y = graph.pos_y + 15; //Calc legend y position
+
+			Iterator<Integer> data_iter = graph.data.iterator(); 		
+			Iterator<Color> color_iter = graph.colors.iterator();
 			
-			bar_x += bar_width + space; //Calculate the new bar_x position
+			Integer graph_name_size = (graph.width + graph.height)/ 50;
+			g.setFont(new Font(null, Font.BOLD, graph_name_size)); //Change text_size		
+			g.drawString(graph.graph_name, graph.pos_x + graph.width/2, graph.pos_y - 20); //Set the graph_name
+
+			Integer i = Collections.max(graph.data); //Calc the max value in the list
+
+			while (data_iter.hasNext()) {
+				if (color_iter.hasNext()) { 
+					Color color = color_iter.next();
+					g.setColor(color); //Use a list with colors to change the color of every bar
+				}			
+				Integer data = data_iter.next(); 								
+
+				Integer bar_height = ((data * graph.height) / i); //Adapt the bar bar height to the highest value in the data list			
+				
+				g.drawRect(bar_x, (graph.height - bar_height + graph.pos_y), bar_width, bar_height); //Draw the bar
+				g.fillRect(bar_x, graph.height - bar_height + graph.pos_y, bar_width, bar_height);
+				
+				g.setFont(new Font(null, Font.BOLD, (graph.width + graph.height)/ 100));				
+				
+				g.setFont(new Font(null, Font.BOLD, (graph.width + graph.height)/ 80));
+				g.drawString(data.toString(), bar_x + bar_width/3, graph.height - bar_height + graph.pos_y); //Draw value above every bar 
+				
+				bar_x += (bar_width + graph.space); //Calculate the new bar_x position				 				
+			}
+			Integer index = 0;
 			
-		}
-		
-		Graphics2D g2d = (Graphics2D) g.create(); // Used to change line width
-		g2d.setStroke(new BasicStroke(3));
-		g2d.setColor(Color.BLACK);
-		g2d.drawLine(pos_x, pos_y, pos_x, pos_y + height); //Graph line vertical
-		g2d.drawLine(pos_x, height + pos_y, width + pos_x, height + pos_y); //Graph line horizontal	
-		
-		Integer text_size = ((width + height)/ 100);
-		g.setFont(new Font(null, Font.BOLD, text_size)); 
-		
-		if (text_vertical != null && pos_x >= 100) {	//Add vertical text		
-			g.drawString(text_vertical, pos_x - 90, pos_y + 30);
-			g.drawString("^", pos_x - 80, pos_y + 50);
-			g.drawString("|", pos_x - 78, pos_y + 60);
-			g.drawString("|", pos_x - 78,  pos_y + 70);
+			for (String legend_text : graph.legend) {
+				g.setColor(colors.get(index));
+				g.drawRect(graph.pos_x + graph.width + 15, legend_y, 100, ((graph.height/60)+ graph.space)); //Draw legend
+				g.fillRect(graph.pos_x + graph.width + 15, legend_y, 100, ((graph.height/60)+ graph.space));
+				g.setColor(Color.BLACK);
+				g.drawString(legend_text, graph.pos_x + graph.width + 15, legend_y - 10);
+				legend_y += legend_height; //Calc the new legend_y pos
+				index += 1; 
+				
+			}
 			
-		}
-		
-		double screenSize = Toolkit.getDefaultToolkit().getScreenSize().getHeight(); 	
-		
-		if (text_horizontal != null && screenSize - 100 > (height + pos_y)) { //Add horizontal text
-			g.drawString(text_horizontal + " --->", width + pos_x - width/10, height + pos_y + 20);
-		}
-		
-		
+			Graphics2D g2d = (Graphics2D) g.create(); // Used to change line graph.width
+			g2d.setStroke(new BasicStroke(3));
+			g2d.setColor(Color.BLACK);
+			g2d.drawLine(graph.pos_x, graph.pos_y, graph.pos_x, graph.pos_y + graph.height); //Graph line vertical
+			g2d.drawLine(graph.pos_x, graph.height + graph.pos_y, graph.width + graph.pos_x, graph.height + graph.pos_y); //Graph line horizontal	
+			
+			Integer text_size = null;
+			if (graph.height > graph.width) {
+				text_size = ((graph.height)/ 50);
+			} else {
+				text_size = ((graph.height)/ 50);
+			}
+			
+			g.setFont(new Font(null, Font.BOLD, text_size)); 
+			
+			g.setColor(Color.BLACK);
+			
+			if (graph.text_vertical != null && graph.pos_x >= 100) {	//Add vertical text		
+				g.drawString(graph.text_vertical, graph.pos_x - 90, graph.pos_y + 30);
+				g.drawString("^", graph.pos_x - 80, graph.pos_y + 50);
+				g.drawString("|", graph.pos_x - 78, graph.pos_y + 60);
+				g.drawString("|", graph.pos_x - 78,  graph.pos_y + 70);
+				
+			}
+			
+			double screenSize = Toolkit.getDefaultToolkit().getScreenSize().getHeight(); 	
+			
+			if (graph.text_horizontal != null && screenSize - 100 > (graph.height + graph.pos_y)) { //Add horizontal text
+				g.drawString(graph.text_horizontal + " --->", graph.width + graph.pos_x - graph.width/10, graph.height + graph.pos_y + 20);
+			}
+					
+		}		
 
 	}
 
-	public void drawScreen() {
-			
-		JFrame application = new JFrame();	
-		Database.frames.add(application);
-
-		while (Database.frames.size() > 1) { //Close the old graph screen(s)			
-			Database.frames.get(0).dispose();		
-			Database.frames.remove(0);
-		}			
+	public void drawScreen() {			
+		Database.graphs.add(this); 
 		
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); 
+		if (Database.frames.isEmpty()) {		
+			JFrame frame = new JFrame();			
+			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); 
 
-		application.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);		
-		application.setSize(screenSize);		
-
-		application.setVisible(true);
-		application.setTitle("Graph " + DrawMap.current_region);	
-		application.add(this);			
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);		
+			frame.setSize(screenSize);	
+			frame.setVisible(true);
+			frame.setTitle("Graph " + DrawMap.current_region);			
+			Database.frames.add(frame);				
+		}
+		
+		Database.frames.get(0).add(this); 	
 					
 		
 	}
