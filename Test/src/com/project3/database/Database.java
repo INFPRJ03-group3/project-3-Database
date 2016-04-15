@@ -1,19 +1,22 @@
 package com.project3.database;
 
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JFrame;
 
-import com.project3.database.draw.DrawMap;
 import com.project3.database.draw.Graph;
 
 
 public class Database {
+	public static List<Color> colors = Arrays.asList(Color.BLUE, Color.RED, Color.CYAN, Color.ORANGE, Color.GREEN, Color.MAGENTA, Color.DARK_GRAY);
 
 	public static ArrayList<Integer> crime_data = new ArrayList<>();
 	public static ArrayList<String> crime_types = new ArrayList<>();
@@ -34,8 +37,7 @@ public class Database {
 						"project3");
 				if (con != null) {
 					System.out.println("Connected");
-				}
-				DrawMap.main(args);
+				}				
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -74,7 +76,8 @@ public class Database {
 				frames.clear();
 				  				
 				Graph graph = new Graph(700, 800, 100, 100, crime_data, 20, "CrimeTypes", "Percentage", "Crime type", crime_types);
-				Graph graph2 = new Graph(200, 800, 1300, 100, income_data, 20, "Households and Income", "Amount", "Data", income_types);		
+				Graph graph2 = new Graph(200, 800, 1300, 100, income_data, 20, "Households and Income", "Amount", "Data", income_types);
+				
 				graph.drawScreen();	
 				graph2.drawScreen();			
 								

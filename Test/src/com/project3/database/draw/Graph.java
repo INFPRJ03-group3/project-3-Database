@@ -8,8 +8,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,6 +22,7 @@ import com.project3.database.Database;
 public class Graph extends JPanel {
 
 	ArrayList<Color> colors = new ArrayList<>();	
+	
 	ArrayList<Integer> data = new ArrayList<>();
 	ArrayList<String> legend = new ArrayList<>();
 	Integer width;
@@ -48,7 +51,7 @@ public class Graph extends JPanel {
 		this.text_horizontal = text_horizontal;
 		this.legend = legend; 
 		
-	}
+	}	
 
 	private void fill_colors() {
 		if (colors.isEmpty()) {
