@@ -3,5 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="lib" path="C:/Users/Sivar/Downloads/postgresql-9.4.1208.jre6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sivar/Downloads/jfreechart-1.0.0-rc3/jfreechart-1.0.0-rc3/lib/jfreechart-1.0.0-rc3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sivar/Downloads/jfreechart-1.0.0-rc3/jfreechart-1.0.0-rc3/lib/jcommon-1.0.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

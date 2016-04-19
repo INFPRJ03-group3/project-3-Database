@@ -62,6 +62,7 @@ public class Map extends JFrame {
 						frame.dispose();
 					}
 					Lists.frames.clear();
+					Lists.graphs.clear();
 					frames.clear();
 					
 					Menumain.main(null); //Call the mainscreen				
@@ -108,6 +109,8 @@ public class Map extends JFrame {
 						}
 					}
 					try {
+						Lists.frames.clear();
+						Lists.graphs.clear();
 						Database.DrawGraph(); //Draw graphs for the region clicked 
 					} catch (SQLException e1) {								
 						e1.printStackTrace();
@@ -167,7 +170,11 @@ public class Map extends JFrame {
 	}	
 
 	public static void main(String args[]) {
-		if (frames.isEmpty()) {
+		for (JFrame frame : frames) {
+			frame.dispose();
+		}
+		frames.clear();
+	
 		Map draw = new Map();
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -180,7 +187,7 @@ public class Map extends JFrame {
 	
 		Lists.frames.add(draw); 
 		
-		}
+		
 	}
 
 }

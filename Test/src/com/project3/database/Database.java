@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 
 import com.project3.database.draw.Graph;
+import com.project3.database.draw.Map;
+import com.project3.database.draw.PieChart;
 import com.project3.database.other.Lists;
 
 
@@ -19,7 +21,7 @@ public class Database {
 	private static ArrayList<Integer> crime_data = new ArrayList<>();
 	private static ArrayList<Integer> income_data = new ArrayList<>();
 
-	public static void main(String[] args) {
+	public static void dataConnect() {
 		if (con == null) {
 			try {
 				Class.forName("org.postgresql.Driver");
@@ -56,21 +58,25 @@ public class Database {
 				}
 
 				ResultSet rs1 = st.executeQuery(Lists.queries.get(1));
-				while (rs1.next()) {					
+				while (rs1.next()) {						
 					income_data.add(Integer.parseInt(rs1.getString(1)));
 					income_data.add(Integer.parseInt(rs1.getString(2)));
 
 				} for (JFrame frame : Lists.frames) { //Close old screens
+					System.out.println(Lists.frames.size());
 					frame.dispose();					
 				}
-				Lists.frames.clear();				
-				  				
+				Lists.frames.clear();						
+								  				
 				Graph graph = new Graph(700, 800, 100, 100, crime_data, 20, "CrimeTypes", "Percentage", "Crime type", Lists.crime_types, null);
 				Graph graph2 = new Graph(200, 800, 1300, 100, income_data, 20, "Households and Income", "Amount", "Data", Lists.income_types, null);
 				
 				graph.drawScreen();	
-				graph2.drawScreen();			
-								
+				graph2.drawScreen();	
+				
+				PieChart piechart = new PieChart("Crime " + Map.current_region, crime_data, Lists.crime_types);
+				piechart.drawScreen();
+												
 				rs.close();
 				rs1.close();
 				st.close(); 

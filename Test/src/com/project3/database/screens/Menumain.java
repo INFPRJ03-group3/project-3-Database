@@ -55,11 +55,17 @@ public class Menumain extends JFrame {
 				MaxCrime.drawScreen();			
 			}
 		});
+		
+		buttons.get(1).addActionListener(new ActionListener() {			
+			public void actionPerformed(ActionEvent e) {
+				AvgIncome.drawScreen();		
+			}
+		});
 				
 		buttons.get(4).addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				Database.main(null); //Call database to get a connection with the database
+				Database.dataConnect();; //Call database to get a connection with the database
 				Map.main(null); //Draw the map 
 			}
 		});
@@ -75,7 +81,7 @@ public class Menumain extends JFrame {
 		frame.pack();
 		
 		frame.setLayout(null);
-		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		frame.setVisible(true);
 		Lists.frames.add(frame); 
 	}

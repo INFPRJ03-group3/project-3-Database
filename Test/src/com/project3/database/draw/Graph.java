@@ -57,16 +57,27 @@ public class Graph extends JPanel {
 	}	
 
 	private void fill_colors() {
+		Color light_blue = new Color(102, 102, 255);
+		Color light_green = new Color(102, 255, 102);
 		Color purple = new Color(75, 0, 130);
+		Color dark_red = new Color(153, 0, 0);
+		Color brown_green = new Color(153, 153, 0);
+		Color other_blue = new Color(0, 153, 153);
 		if (colors.isEmpty()) {
-			colors.add(Color.BLUE);
 			colors.add(Color.RED);
-			colors.add(Color.CYAN);
-			colors.add(Color.ORANGE);
-			colors.add(Color.GREEN);
+			colors.add(light_blue);		
+			colors.add(light_green);
+			colors.add(Color.YELLOW);
 			colors.add(Color.MAGENTA);
-			colors.add(Color.DARK_GRAY);
+			colors.add(Color.CYAN);
+			colors.add(Color.PINK);
+			colors.add(Color.GRAY); 
+			colors.add(dark_red);
+			colors.add(Color.BLUE);	
+			colors.add(Color.GREEN);
+			colors.add(brown_green);
 			colors.add(purple);
+			colors.add(other_blue);		
 		}
 	}
 
@@ -77,12 +88,14 @@ public class Graph extends JPanel {
 			Integer bar_width = ((graph.width + graph.space) / graph.data.size()) - graph.space; //Calculate the width of every bar
 			Integer bar_x = graph.pos_x + graph.space/3;
 			
-			Integer legend_height;
-			if (50 * graph.legend.size() < graph.height) {
-				legend_height = 50 + ((graph.height/60)+ graph.space);
-			} else {
-				legend_height = ((graph.height + graph.space) / graph.legend.size()) - graph.space; //Calc legend_height of every bar
-			}
+			Integer legend_height = null;
+			if (graph.legend != null) {
+				if (50 * graph.legend.size() < graph.height) {
+					legend_height = 50 + ((graph.height/60)+ graph.space);
+				} else {
+					legend_height = ((graph.height + graph.space) / graph.legend.size()) - graph.space; //Calc legend_height of every bar
+				}				
+			}		
 			
 			Integer legend_y = graph.pos_y + 15; //Calc legend y position
 
@@ -116,24 +129,26 @@ public class Graph extends JPanel {
 			}
 			Integer index = 0;
 			
-			for (String legend_text : graph.legend) {
-				g.setFont(new Font(null, Font.BOLD, 20)); 	
-				g.setColor(colors.get(index));
-				g.drawRect(graph.pos_x + graph.width + 15, legend_y, 100, ((graph.height/60)+ graph.space)); //Draw legend
-				g.fillRect(graph.pos_x + graph.width + 15, legend_y, 100, ((graph.height/60)+ graph.space));
-				g.setColor(Color.BLACK);
-				g.drawString(legend_text, graph.pos_x + graph.width + 15, legend_y - 10);
-				
-				if (graph.bar_text != null && index < graph.bar_text.size()) {
-					g.setFont(new Font(null, Font.BOLD, 15)); 					
-					g.drawString(graph.bar_text.get(index), graph.width + 220, legend_y + 20);
+			if (graph.legend != null) {
+				for (String legend_text : graph.legend) {
+					g.setFont(new Font(null, Font.BOLD, 20)); 	
+					g.setColor(colors.get(index));
+					g.drawRect(graph.pos_x + graph.width + 15, legend_y, 100, ((graph.height/60)+ graph.space)); //Draw legend
+					g.fillRect(graph.pos_x + graph.width + 15, legend_y, 100, ((graph.height/60)+ graph.space));
+					g.setColor(Color.BLACK);
+					g.drawString(legend_text, graph.pos_x + graph.width + 15, legend_y - 10);
 					
-				}
-				
-				legend_y += legend_height; //Calc the new legend_y pos
-				index += 1; 
-				
-			}
+					if (graph.bar_text != null && index < graph.bar_text.size()) {
+						g.setFont(new Font(null, Font.BOLD, 15)); 					
+						g.drawString(graph.bar_text.get(index), graph.width + 220, legend_y + 20);
+						
+					}
+					
+					legend_y += legend_height; //Calc the new legend_y pos
+					index += 1; 
+					
+				}				
+			}			
 			
 			Graphics2D g2d = (Graphics2D) g.create(); // Used to change line graph.width
 			g2d.setStroke(new BasicStroke(3));
@@ -170,7 +185,11 @@ public class Graph extends JPanel {
 
 	}
 
-	public void drawScreen() {		
+	public void drawScreen() {
+		
+		while (Lists.frames.size() > 2) {
+			Lists.frames.remove(2);
+		}
 		
 		Lists.graphs.add(this); 
 		
@@ -181,21 +200,28 @@ public class Graph extends JPanel {
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);		
 			frame.setSize(screenSize);	
 			frame.setVisible(true);
-			frame.setTitle("Graph " + Map.current_region);			
-			Lists.frames.add(frame);				
-		}
-		
-		JButton backbutton = Button.backButton(1600, 900);
-		backbutton.addActionListener(new ActionListener() {		
-			public void actionPerformed(ActionEvent e) {
-				for (JFrame frame : Lists.frames) {
-					frame.dispose();
+			frame.setTitle("Graph " + Map.current_region);		
+			Lists.frames.add(frame);
+			
+			JButton backbutton = Button.backButton(1600, 900);
+			backbutton.addActionListener(new ActionListener() {		
+				public void actionPerformed(ActionEvent e) {
+					for (JFrame frame : Lists.frames) {
+						frame.dispose();
+					}
+					
+					for (JFrame frame : Lists.PieCharts) {
+						frame.dispose();
+					}
+					Lists.PieCharts.clear();
+					Lists.frames.clear();
+					Lists.graphs.clear();					
 				}
-				Lists.frames.clear();
-				Map.main(null);		
-			}
-		});
-		Lists.frames.get(0).add(backbutton); 
+			});
+			Lists.frames.get(0).add(backbutton); 
+							
+		}	
+		Lists.frames.get(0).getContentPane().remove(this);
 		Lists.frames.get(0).add(this); 	
 		Lists.frames.get(0).revalidate();			
 		

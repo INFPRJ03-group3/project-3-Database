@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import com.project3.database.draw.Graph;
+import com.project3.database.draw.PieChart;
 
 public class Lists { //Class with all the public lists
 	
@@ -17,6 +18,7 @@ public class Lists { //Class with all the public lists
 	public static ArrayList<String> max_crime = new ArrayList<>();
 	public static ArrayList<String> queries = new ArrayList<>();
 	public static ArrayList<JFrame> frames = new ArrayList<>();
-	public static ArrayList<Graph> graphs = new ArrayList<>();	
+	public static ArrayList<Graph> graphs = new ArrayList<>();		
+	public static ArrayList<PieChart> PieCharts = new ArrayList<>();
 
 }
