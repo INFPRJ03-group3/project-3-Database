@@ -32,7 +32,8 @@ public class MaxCrime extends JFrame {
 		data_list.clear();
 		region_name.clear();
 		crime_types.clear();
-			
+
+		//sets up the screem
 		JFrame frame = new JFrame();			
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); 
 
@@ -59,7 +60,8 @@ public class MaxCrime extends JFrame {
 		}
 		
 	}
-	
+
+    //runs queries
 	private static void run_queries() throws SQLException {
 		Database.main(null);
 		if (Database.con != null) {
@@ -90,7 +92,8 @@ public class MaxCrime extends JFrame {
 		}	
 		
 	}
-	
+
+    /fills querries with data from the database
 	private static void fill__queries() {
 		Lists.queries.clear();
 		Lists.queries.add("SELECT * FROM Bicycle_theft WHERE Crime_percentage IN (SELECT MAX(Crime_percentage) FROM Bicycle_theft)");

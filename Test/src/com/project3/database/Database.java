@@ -20,6 +20,7 @@ public class Database {
 	private static ArrayList<Integer> income_data = new ArrayList<>();
 
 	public static void main(String[] args) {
+		//sets up connection to the database
 		if (con == null) {
 			try {
 				Class.forName("org.postgresql.Driver");
@@ -35,7 +36,8 @@ public class Database {
 		}		
 
 	}
-	
+
+    //sets up Households and Income graph
 	public static void DrawGraph() throws SQLException {
 		if (con != null) {
 			Statement st = con.createStatement();			
@@ -64,10 +66,12 @@ public class Database {
 					frame.dispose();					
 				}
 				Lists.frames.clear();				
-				  				
+
+                //set up graph classes
 				Graph graph = new Graph(700, 800, 100, 100, crime_data, 20, "CrimeTypes", "Percentage", "Crime type", Lists.crime_types, null);
 				Graph graph2 = new Graph(200, 800, 1300, 100, income_data, 20, "Households and Income", "Amount", "Data", Lists.income_types, null);
-				
+
+                //draws graphs on screen
 				graph.drawScreen();	
 				graph2.drawScreen();			
 								
