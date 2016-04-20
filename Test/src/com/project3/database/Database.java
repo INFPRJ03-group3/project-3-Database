@@ -72,10 +72,7 @@ public class Database {
 				Graph graph2 = new Graph(200, 800, 1300, 100, income_data, 20, "Households and Income", "Amount", "Data", Lists.income_types, null);
 				
 				graph.drawScreen();	
-				graph2.drawScreen();	
-				
-				PieChart piechart = new PieChart("Crime " + Map.current_region, crime_data, Lists.crime_types);
-				piechart.drawScreen();
+				graph2.drawScreen();		
 												
 				rs.close();
 				rs1.close();

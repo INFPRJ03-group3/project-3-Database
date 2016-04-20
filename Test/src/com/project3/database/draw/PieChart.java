@@ -53,6 +53,12 @@ public class PieChart extends ApplicationFrame {
 	}
 
 	public void drawScreen() {
+		if (Lists.PieCharts.isEmpty() == false) {
+			for (PieChart chart: Lists.PieCharts) {  //Close the old piechart
+				chart.dispose();				
+			}
+			Lists.PieCharts.clear();
+		}
 		PieChart chart = new PieChart(title, data, slice_names);		
 		chart.setSize(1200, 800);	
 		//RefineryUtilities.centerFrameOnScreen(demo);			

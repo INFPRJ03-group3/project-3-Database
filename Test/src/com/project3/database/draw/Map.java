@@ -50,7 +50,7 @@ public class Map extends JFrame {
 				add(button);
 				
 			}
-			JButton backbutton = Button.backButton(1600, 850);
+			JButton backbutton = Button.backButton(1600, 900);
 			
 			backbutton.addActionListener(new ActionListener() {		
 				public void actionPerformed(ActionEvent e) {

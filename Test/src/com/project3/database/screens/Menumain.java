@@ -20,7 +20,6 @@ public class Menumain extends JFrame {
 	private JLabel label1;
 	private ArrayList<JButton> buttons = new ArrayList<>();
 
-	
 	public Menumain() {
 		//calls the GUI
 		prepareGui();
@@ -76,8 +75,7 @@ public class Menumain extends JFrame {
 			}
 		});
 		
-		frame.add(label1);
-		
+		frame.add(label1);		
 		frame.pack();
 		
 		frame.setLayout(null);
