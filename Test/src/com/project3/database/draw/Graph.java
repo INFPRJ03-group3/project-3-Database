@@ -216,8 +216,7 @@ public class Graph extends JPanel {
 						frame.dispose();
 					}
 					Lists.PieCharts.clear();
-					Lists.frames.clear();
-					Lists.graphs.clear();					
+					Lists.frames.clear();								
 				}
 			});
 			PieChart chart = new PieChart("CrimeTypes " + Map.current_region, data, legend); 

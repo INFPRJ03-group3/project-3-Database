@@ -47,8 +47,7 @@ public class PieChart extends ApplicationFrame {
 	
 
 	public static JPanel createDemoPanel() {
-		JFreeChart chart = createChart(createDataset());	
-		
+		JFreeChart chart = createChart(createDataset());			
 		return new ChartPanel(chart);
 	}
 
@@ -60,8 +59,7 @@ public class PieChart extends ApplicationFrame {
 			Lists.PieCharts.clear();
 		}
 		PieChart chart = new PieChart(title, data, slice_names);		
-		chart.setSize(1200, 800);	
-		//RefineryUtilities.centerFrameOnScreen(demo);			
+		chart.setSize(1200, 800);		
 		chart.setVisible(true);		
 			
 		Lists.PieCharts.add(chart); 

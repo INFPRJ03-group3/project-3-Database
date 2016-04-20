@@ -20,5 +20,6 @@ public class Lists { //Class with all the public lists
 	public static ArrayList<JFrame> frames = new ArrayList<>();
 	public static ArrayList<Graph> graphs = new ArrayList<>();		
 	public static ArrayList<PieChart> PieCharts = new ArrayList<>();
+	
 
 }

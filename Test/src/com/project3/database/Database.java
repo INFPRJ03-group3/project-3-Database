@@ -62,8 +62,7 @@ public class Database {
 					income_data.add(Integer.parseInt(rs1.getString(1)));
 					income_data.add(Integer.parseInt(rs1.getString(2)));
 
-				} for (JFrame frame : Lists.frames) { //Close old screens
-					System.out.println(Lists.frames.size());
+				} for (JFrame frame : Lists.frames) { //Close old screens					
 					frame.dispose();					
 				}
 				Lists.frames.clear();						
