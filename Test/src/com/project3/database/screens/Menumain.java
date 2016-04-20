@@ -19,8 +19,9 @@ public class Menumain extends JFrame {
 	private ImageIcon image1;
 	private JLabel label1;
 	private ArrayList<JButton> buttons = new ArrayList<>();
-
+	public static JFrame frame = null;
 	
+
 	public Menumain() {
 		//calls the GUI
 		prepareGui();
@@ -28,13 +29,16 @@ public class Menumain extends JFrame {
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		Menumain menuMain = new Menumain();
-
+		if (frame == null) {
+			Menumain menuMain = new Menumain();
+		} else {
+			frame.setVisible(true);		
+		}	
 	}
 	
 	public void prepareGui() {
 		//sets up the main menu frame.
-		JFrame frame = new JFrame("Project 3");
+		frame = new JFrame("Project 3");
 		image1 = new ImageIcon(getClass().getResource("cover.jpg"));		
 		label1 = new JLabel(image1);
 				
@@ -44,21 +48,38 @@ public class Menumain extends JFrame {
 		Button.createButton("Safety levels", 300, 75, 150, 500, buttons, 20);	
 		Button.createButton("Households", 250, 75, 150, 600, buttons, 20);					
 		Button.createButton("Regions", 200, 75, 150, 700, buttons, 20);
-		Button.createButton("Quit", 150, 75, 150, 800, buttons, 20);			
+		Button.createButton("Quit", 150, 75, 150, 800, buttons, 20);
+		
 		
 		for (JButton button : buttons) {				
 			frame.add(button); //Add buttons to the frame
 		} 
 		
 		buttons.get(0).addActionListener(new ActionListener() {			
-			public void actionPerformed(ActionEvent e) {
-				MaxCrime.drawScreen();			
+			public void actionPerformed(ActionEvent e) {				
+				Screens maxcrime = new Screens("Max Crime Percentage", "Percentage", "Regions", true);
+				maxcrime.drawScreen();
 			}
 		});
 		
 		buttons.get(1).addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
-				AvgIncome.drawScreen();		
+				Screens avgincome = new Screens("AvgIncome", "Amount", "Regions", false);
+				avgincome.drawScreen();
+			}
+		});
+		
+		buttons.get(2).addActionListener(new ActionListener() {			
+			public void actionPerformed(ActionEvent e) {
+				Screens avgincome = new Screens("Safety Levels", "Amount", "Regions", false);
+				avgincome.drawScreen();
+			}
+		});
+		
+		buttons.get(3).addActionListener(new ActionListener() {			
+			public void actionPerformed(ActionEvent e) {
+				Screens avgincome = new Screens("HouseHolds", "Amount", "Regions", false);
+				avgincome.drawScreen();
 			}
 		});
 				
@@ -76,8 +97,7 @@ public class Menumain extends JFrame {
 			}
 		});
 		
-		frame.add(label1);
-		
+		frame.add(label1);		
 		frame.pack();
 		
 		frame.setLayout(null);

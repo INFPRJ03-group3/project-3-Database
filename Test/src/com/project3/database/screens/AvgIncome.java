@@ -50,6 +50,11 @@ public class AvgIncome extends JFrame{
 		});
 		frame.add(backbutton);
 		
+		frame.add(backbutton);
+		PieChart chart = new PieChart("AvgIncome", data_list, region_names); 
+		JButton chartbutton = Button.piechartButton(1600, 800, chart);	
+		frame.add(chartbutton);
+		
 		Lists.frames.add(frame);	
 		fill__queries();	
 		try {
@@ -76,11 +81,9 @@ public class AvgIncome extends JFrame{
 			
 			Lists.graphs.clear();			
 			
-			Graph graph = new Graph(700, 800, 100, 100, data_list, 10, "AvgIncome", null, null, null, null);
-			PieChart chart = new PieChart("AvgIncome", data_list, region_names); 			
-					
+			Graph graph = new Graph(700, 800, 100, 100, data_list, 10, "AvgIncome", "Amount", "Regions", region_names, null);					
 			graph.drawScreen();
-			chart.drawScreen();
+
 			Lists.frames.get(0).revalidate();
 		} else {
 			System.out.println("No database connection");

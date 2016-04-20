@@ -23,7 +23,7 @@ import com.project3.database.other.Lists;
 public class MaxCrime extends JFrame {
 	private static ArrayList<Integer> data_list = new ArrayList<>();
 	private static ArrayList<String> region_names = new ArrayList<>();
-	private static ArrayList<String> crime_types = new ArrayList<>();	
+	private static ArrayList<String> crime_types = new ArrayList<>();			
 	
 	public static void drawScreen() {	
 		for (JFrame frame : Lists.frames) {
@@ -50,6 +50,10 @@ public class MaxCrime extends JFrame {
 			}
 		});
 		frame.add(backbutton);
+		PieChart chart = new PieChart("Max Crime Percentages", data_list, region_names); 
+		JButton chartbutton = Button.piechartButton(1600, 800, chart);	
+		frame.add(chartbutton);
+	
 		
 		Lists.frames.add(frame);	
 		fill__queries();	
@@ -82,10 +86,8 @@ public class MaxCrime extends JFrame {
 			Lists.graphs.clear();		
 			
 			Graph graph = new Graph(700, 800, 100, 100, data_list, 20, "Max Crime Percentages", "Percentage", "Crime type", region_names,crime_types);
-			PieChart chart = new PieChart("Max Crime Percentages", data_list, region_names); 			
-			
-			graph.drawScreen();
-			chart.drawScreen();
+					
+			graph.drawScreen();			
 			Lists.frames.get(0).revalidate();
 		} else {
 			System.out.println("No database connection");

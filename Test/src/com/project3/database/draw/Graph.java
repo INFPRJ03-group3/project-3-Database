@@ -57,17 +57,19 @@ public class Graph extends JPanel {
 	}	
 
 	private void fill_colors() {
+		Color light_red = new Color(255, 102, 102); 
 		Color light_blue = new Color(102, 102, 255);
+		Color light_yellow = new Color(255, 255, 51);
 		Color light_green = new Color(102, 255, 102);
 		Color purple = new Color(75, 0, 130);
 		Color dark_red = new Color(153, 0, 0);
 		Color brown_green = new Color(153, 153, 0);
 		Color other_blue = new Color(0, 153, 153);
 		if (colors.isEmpty()) {
-			colors.add(Color.RED);
+			colors.add(light_red);
 			colors.add(light_blue);		
 			colors.add(light_green);
-			colors.add(Color.YELLOW);
+			colors.add(light_yellow);
 			colors.add(Color.MAGENTA);
 			colors.add(Color.CYAN);
 			colors.add(Color.PINK);
@@ -90,10 +92,10 @@ public class Graph extends JPanel {
 			
 			Integer legend_height = null;
 			if (graph.legend != null) {
-				if (50 * graph.legend.size() < graph.height) {
-					legend_height = 50 + ((graph.height/60)+ graph.space);
+				if (100 * graph.legend.size() < graph.height) {
+					legend_height = 50 + ((graph.height/60)+ graph.space);					
 				} else {
-					legend_height = ((graph.height + graph.space) / graph.legend.size()) - graph.space; //Calc legend_height of every bar
+					legend_height = ((graph.height) / graph.legend.size()); //Calc legend_height of every bar
 				}				
 			}		
 			
@@ -123,7 +125,7 @@ public class Graph extends JPanel {
 				g.setFont(new Font(null, Font.BOLD, (graph.width + graph.height)/ 100));				
 				
 				g.setFont(new Font(null, Font.BOLD, (graph.width + graph.height)/ 80));
-				g.drawString(data.toString(), bar_x + bar_width/3, graph.height - bar_height + graph.pos_y); //Draw value above every bar 				
+				g.drawString(data.toString(), bar_x, graph.height - bar_height + graph.pos_y); //Draw value above every bar 				
 				
 				bar_x += (bar_width + graph.space); //Calculate the new bar_x position				 				
 			}
@@ -214,11 +216,14 @@ public class Graph extends JPanel {
 						frame.dispose();
 					}
 					Lists.PieCharts.clear();
-					Lists.frames.clear();
-					Lists.graphs.clear();					
+					Lists.frames.clear();								
 				}
 			});
+			PieChart chart = new PieChart("CrimeTypes " + Map.current_region, data, legend); 
+			JButton chartbutton = Button.piechartButton(1600, 800, chart);	
+			frame.add(chartbutton);
 			Lists.frames.get(0).add(backbutton); 
+			Lists.frames.get(0).add(chartbutton); 
 							
 		}	
 		Lists.frames.get(0).getContentPane().remove(this);
