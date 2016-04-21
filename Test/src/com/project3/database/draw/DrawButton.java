@@ -6,6 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 @SuppressWarnings("serial")
+// sets up the DrawButton class in which all buttons that get drawed exist
 public class DrawButton extends JFrame { 
 	
 	public static void createButton(String text, Integer size_x, Integer size_y, Integer pos_x, Integer pos_y, ArrayList<JButton> buttons) {

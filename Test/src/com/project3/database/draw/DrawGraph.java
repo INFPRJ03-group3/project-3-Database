@@ -19,6 +19,7 @@ public class DrawGraph extends JPanel {
 	ArrayList<Color> colors = new ArrayList<>();
 	static ArrayList<JFrame> frames = new ArrayList<>();	
 
+	//set up graph class
 	public DrawGraph() {
 		super();
 		setBackground(Color.WHITE);				

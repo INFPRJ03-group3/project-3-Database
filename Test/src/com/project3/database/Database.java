@@ -19,7 +19,12 @@ public class Database {
 	private static ArrayList<Integer> crime_data = new ArrayList<>();
 	private static ArrayList<Integer> income_data = new ArrayList<>();
 
+<<<<<<< HEAD
+	public static void main(String[] args) {
+		//sets up connection to the database
+=======
 	public static void dataConnect() { //Create a connection with the database
+>>>>>>> origin/Development
 		if (con == null) {
 			try {
 				Class.forName("org.postgresql.Driver");
@@ -35,8 +40,14 @@ public class Database {
 		}		
 
 	}
+<<<<<<< HEAD
+
+    //sets up Households and Income graph
+	public static void DrawGraph() throws SQLException {
+=======
 	
 	public static void DrawGraph() throws SQLException { //Draw graphs for the map(regions)
+>>>>>>> origin/Development
 		if (con != null) {
 			Statement st = con.createStatement();			
 			if (Lists.queries.isEmpty() == false) {				
@@ -63,11 +74,21 @@ public class Database {
 				} for (JFrame frame : Lists.frames) { //Close old screens					
 					frame.dispose();					
 				}
+<<<<<<< HEAD
+				Lists.frames.clear();				
+
+                //set up graph classes
+				Graph graph = new Graph(700, 800, 100, 100, crime_data, 20, "CrimeTypes", "Percentage", "Crime type", Lists.crime_types, null);
+				Graph graph2 = new Graph(200, 800, 1300, 100, income_data, 20, "Households and Income", "Amount", "Data", Lists.income_types, null);
+
+                //draws graphs on screen
+=======
 				Lists.frames.clear();						
 				//Create graphs:				  				
 				Graph graph = new Graph(700, 800, 100, 100, crime_data, 20, "CrimeTypes", "Percentage", "Crime type", Lists.crime_types, null);
 				Graph graph2 = new Graph(200, 800, 1300, 100, income_data, 20, "Households and Income", "Amount", "Data", Lists.income_types, null);
 				//Draw graphs:
+>>>>>>> origin/Development
 				graph.drawScreen();	
 				graph2.drawScreen();		
 												
