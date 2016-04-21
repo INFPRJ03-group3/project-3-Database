@@ -16,13 +16,14 @@ import javax.swing.JFrame;
 import com.project3.database.Database;
 import com.project3.database.draw.Button;
 import com.project3.database.draw.Graph;
+import com.project3.database.draw.PieChart;
 import com.project3.database.other.Lists;
 
 @SuppressWarnings("serial")
 public class MaxCrime extends JFrame {
 	private static ArrayList<Integer> data_list = new ArrayList<>();
-	private static ArrayList<String> region_name = new ArrayList<>();
-	private static ArrayList<String> crime_types = new ArrayList<>();	
+	private static ArrayList<String> region_names = new ArrayList<>();
+	private static ArrayList<String> crime_types = new ArrayList<>();			
 	
 	public static void drawScreen() {	
 		for (JFrame frame : Lists.frames) {
@@ -30,7 +31,7 @@ public class MaxCrime extends JFrame {
 		}	
 		Lists.frames.clear();
 		data_list.clear();
-		region_name.clear();
+		region_names.clear();
 		crime_types.clear();
 
 		//sets up the screem
@@ -50,6 +51,10 @@ public class MaxCrime extends JFrame {
 			}
 		});
 		frame.add(backbutton);
+		PieChart chart = new PieChart("Max Crime Percentages", data_list, region_names); 
+		JButton chartbutton = Button.piechartButton(1600, 800, chart);	
+		frame.add(chartbutton);
+	
 		
 		Lists.frames.add(frame);	
 		fill__queries();	
@@ -63,7 +68,7 @@ public class MaxCrime extends JFrame {
 
     //runs queries
 	private static void run_queries() throws SQLException {
-		Database.main(null);
+		Database.dataConnect();
 		if (Database.con != null) {
 			Statement st = Database.con.createStatement();		
 			
@@ -75,16 +80,16 @@ public class MaxCrime extends JFrame {
 			    crime_types.add(rsMetaData.getTableName(numberOfColumns)); 
 			    
 				while (rs.next()) {						
-					region_name.add(rs.getString(1));						
+					region_names.add(rs.getString(1));						
 					data_list.add(Integer.parseInt(rs.getString(2)));
 				}
 			}		
 			
 			Lists.graphs.clear();		
 			
-			Graph graph = new Graph(700, 800, 100, 100, data_list, 20, "Max Crime Percentages", "Percentage", "Crime type", region_name,crime_types);
-			
-			graph.drawScreen();
+			Graph graph = new Graph(700, 800, 100, 100, data_list, 20, "Max Crime Percentages", "Percentage", "Crime type", region_names,crime_types);
+					
+			graph.drawScreen();			
 			Lists.frames.get(0).revalidate();
 		} else {
 			System.out.println("No database connection");
