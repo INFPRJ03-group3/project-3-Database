@@ -8,12 +8,14 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import com.project3.database.other.Lists;
+
 @SuppressWarnings("serial")
 public class Button extends JFrame {
 	static Integer count = 0;
 
 	public static void createButton(String text, Integer size_x, Integer size_y, Integer pos_x, Integer pos_y,
-			ArrayList<JButton> buttons, Integer text_size) {
+			ArrayList<JButton> buttons, Integer text_size) { 
 		JButton button = new JButton(text);
 		button.setEnabled(true);
 		button.setSize(size_x, size_y);
@@ -24,7 +26,7 @@ public class Button extends JFrame {
 		buttons.add(button);
 	}
 
-	public static void showMapButtons() {
+	public static void showMapButtons() { //Create buttons for the map sceen
 		Button.createButton("Charlois", 190, 50, 50, 500, Map.buttons, null);
 		Button.createButton("Delfshaven", 190, 50, 50, 560, Map.buttons, null);
 		Button.createButton("Feijenoord", 190, 50, 50, 620, Map.buttons, null);
@@ -41,17 +43,22 @@ public class Button extends JFrame {
 		Button.createButton("Stadscentrum", 190, 50, 250, 860, Map.buttons, null);
 	}
 
-	public static JButton backButton(Integer pos_x, Integer pos_y) {
+	public static JButton backButton(Integer pos_x, Integer pos_y) { //Function to create a backbutton
 		JButton button = new JButton("Back");
 		button.setEnabled(true);
 		button.setSize(190, 50);
 		button.setLocation(pos_x, pos_y);
 		count = 0;
+		for (PieChart chart : Lists.PieCharts) {
+			chart.setVisible(false);
+			chart.dispose(); //Close the pie chart screens				
+		}
+		Lists.PieCharts.clear();
 		return button;
 
 	}
 
-	public static JButton piechartButton(Integer pos_x, Integer pos_y, PieChart chart) {
+	public static JButton piechartButton(Integer pos_x, Integer pos_y, PieChart chart) { //Function to create a pie chart button (on the graph screen) to show and close the pie chart
 		JButton button = new JButton("PieChart");
 		button.setEnabled(true);
 		button.setSize(190, 50);
@@ -60,10 +67,11 @@ public class Button extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				count++;
 				if (count % 2 == 1) {
-					chart.drawScreen();  //Draw a piechart
+					chart.drawScreen();  //Draw a pie chart
 				} else {
-					count = 0;
-					chart.dispose(); //Second click will close the piechart window
+					count = 0;					
+					chart.dispose(); //Second click will close the pie chart window
+					chart.validate();
 				}
 			
 			}

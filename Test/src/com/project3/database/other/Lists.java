@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import com.project3.database.draw.Graph;
 import com.project3.database.draw.PieChart;
 
-public class Lists { //Class with all the public lists
+public class Lists { //Class with public lists
 	
 	public static List<Color> colors = Arrays.asList(Color.BLUE, Color.RED, Color.CYAN, Color.ORANGE, Color.GREEN, Color.MAGENTA, Color.DARK_GRAY);	
 	public static ArrayList<String> crime_types = new ArrayList<>();

@@ -106,7 +106,7 @@ public class Graph extends JPanel {
 			
 			Integer graph_name_size = (graph.width + graph.height)/ 50;
 			g.setFont(new Font(null, Font.BOLD, graph_name_size)); //Change text_size		
-			g.drawString(graph.graph_name, graph.pos_x + graph.width/2, graph.pos_y - 20); //Set the graph_name
+			g.drawString(graph.graph_name, graph.pos_x + graph.width/3, graph.pos_y - 20); //Set the graph_name
 
 			Integer i = Collections.max(graph.data); //Calc the max value in the list
 			
@@ -147,11 +147,9 @@ public class Graph extends JPanel {
 					}
 					
 					legend_y += legend_height; //Calc the new legend_y pos
-					index += 1; 
-					
+					index += 1; 				
 				}				
-			}			
-			
+			}				
 			Graphics2D g2d = (Graphics2D) g.create(); // Used to change line graph.width
 			g2d.setStroke(new BasicStroke(3));
 			g2d.setColor(Color.BLACK);
@@ -165,16 +163,14 @@ public class Graph extends JPanel {
 				text_size = ((graph.height)/ 50);
 			}
 			
-			g.setFont(new Font(null, Font.BOLD, text_size)); 
-			
+			g.setFont(new Font(null, Font.BOLD, text_size)); 			
 			g.setColor(Color.BLACK);
 			
 			if (graph.text_vertical != null && graph.pos_x >= 100) {	//Add vertical text		
 				g.drawString(graph.text_vertical, graph.pos_x - 90, graph.pos_y + 30);
 				g.drawString("^", graph.pos_x - 80, graph.pos_y + 50);
 				g.drawString("|", graph.pos_x - 78, graph.pos_y + 60);
-				g.drawString("|", graph.pos_x - 78,  graph.pos_y + 70);
-				
+				g.drawString("|", graph.pos_x - 78,  graph.pos_y + 70);				
 			}
 			
 			double screenSize = Toolkit.getDefaultToolkit().getScreenSize().getHeight(); 	
@@ -195,7 +191,7 @@ public class Graph extends JPanel {
 		
 		Lists.graphs.add(this); 
 		
-		if (Lists.frames.isEmpty()) {		
+		if (Lists.frames.isEmpty()) {  		
 			JFrame frame = new JFrame();			
 			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); 
 

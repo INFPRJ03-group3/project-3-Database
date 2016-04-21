@@ -37,7 +37,7 @@ public class Map extends JFrame {
 		label1 = new JLabel(image1);
 
 		Button.showMapButtons();
-
+		// Fill queries lists:
 		if (crime_queries.isEmpty()) {
 			fill_crime_queries();
 		}
@@ -50,15 +50,15 @@ public class Map extends JFrame {
 				add(button);
 
 			}
-			JButton backbutton = Button.backButton(1600, 900);
+			JButton backbutton = Button.backButton(1600, 900); // Create a backbutton
 
 			backbutton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					dispose(); // Close the current screen					
+					dispose(); // Close the current screen
 					for (JFrame frame : Lists.frames) {
 						frame.dispose();
-					}					
-					Lists.graphs.clear();					
+					}
+					Lists.graphs.clear();
 
 					Menumain.main(null); // Call the mainscreen
 				}
@@ -66,7 +66,7 @@ public class Map extends JFrame {
 			add(backbutton);
 		}
 
-		addActions(buttons, queries);
+		addActions(buttons, queries); // addActions to the buttons
 		updateMap();
 	}
 
@@ -83,7 +83,7 @@ public class Map extends JFrame {
 			button.addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
-					for (Entry<JButton, String> entry : crime_queries.entrySet()) {
+					for (Entry<JButton, String> entry : crime_queries.entrySet()) { //Loop through the crime_queries hashmap to get the key and value
 						JButton key = entry.getKey();
 						String value = entry.getValue();
 						if (key == button) {
@@ -121,7 +121,7 @@ public class Map extends JFrame {
 				public void mouseMoved(MouseEvent e) { // Change map texture
 														// when the mouse is on
 														// a button (red areas)
-					texture = button.getText() + ".png";
+					texture = button.getText() + ".png"; 
 					updateMap();
 				}
 
@@ -193,12 +193,11 @@ public class Map extends JFrame {
 			frame.setVisible(true);
 			frame.setSize(screenSize);
 			frame.setTitle("Map");
-			
+
 		} else {
-			frame.setVisible(true);			
+			frame.setVisible(true);
 		}
 
-		
 	}
 
 }

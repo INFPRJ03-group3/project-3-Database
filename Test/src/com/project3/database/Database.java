@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 
 import com.project3.database.draw.Graph;
-import com.project3.database.draw.Map;
-import com.project3.database.draw.PieChart;
 import com.project3.database.other.Lists;
 
 
@@ -21,7 +19,7 @@ public class Database {
 	private static ArrayList<Integer> crime_data = new ArrayList<>();
 	private static ArrayList<Integer> income_data = new ArrayList<>();
 
-	public static void dataConnect() {
+	public static void dataConnect() { //Create a connection with the database
 		if (con == null) {
 			try {
 				Class.forName("org.postgresql.Driver");
@@ -38,7 +36,7 @@ public class Database {
 
 	}
 	
-	public static void DrawGraph() throws SQLException {
+	public static void DrawGraph() throws SQLException { //Draw graphs for the map(regions)
 		if (con != null) {
 			Statement st = con.createStatement();			
 			if (Lists.queries.isEmpty() == false) {				
@@ -48,16 +46,16 @@ public class Database {
 				}				
 				Lists.graphs.clear();
 				crime_data.clear();
-				Lists.crime_types.clear();
-				income_data.clear();					
+				Lists.crime_types.clear(); 
+				income_data.clear(); //Clear the lists				
 
-				ResultSet rs = st.executeQuery(Lists.queries.get(0));
+				ResultSet rs = st.executeQuery(Lists.queries.get(0)); //Run queries from the queries list (crime)
 				while (rs.next()) {	
 					Lists.crime_types.add(rs.getString(1));
-					crime_data.add(Integer.parseInt(rs.getString(2)));
+					crime_data.add(Integer.parseInt(rs.getString(2))); //Add the sql data to a list
 				}
 
-				ResultSet rs1 = st.executeQuery(Lists.queries.get(1));
+				ResultSet rs1 = st.executeQuery(Lists.queries.get(1)); //Run queries from the queries list (income)
 				while (rs1.next()) {						
 					income_data.add(Integer.parseInt(rs1.getString(1)));
 					income_data.add(Integer.parseInt(rs1.getString(2)));
@@ -66,10 +64,10 @@ public class Database {
 					frame.dispose();					
 				}
 				Lists.frames.clear();						
-								  				
+				//Create graphs:				  				
 				Graph graph = new Graph(700, 800, 100, 100, crime_data, 20, "CrimeTypes", "Percentage", "Crime type", Lists.crime_types, null);
 				Graph graph2 = new Graph(200, 800, 1300, 100, income_data, 20, "Households and Income", "Amount", "Data", Lists.income_types, null);
-				
+				//Draw graphs:
 				graph.drawScreen();	
 				graph2.drawScreen();		
 												
