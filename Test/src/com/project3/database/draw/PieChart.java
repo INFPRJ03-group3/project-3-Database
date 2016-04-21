@@ -14,7 +14,7 @@ import org.jfree.ui.ApplicationFrame;
 import com.project3.database.other.Lists;
 
 @SuppressWarnings("serial")
-public class PieChart extends ApplicationFrame {	
+public class PieChart extends ApplicationFrame { //PieChart class
 	static ArrayList<Integer> data = new ArrayList<>();
 	static ArrayList<String> slice_names = new ArrayList<>();
 	static String title; 
@@ -27,11 +27,11 @@ public class PieChart extends ApplicationFrame {
 		this.title = title; 
 	}
 	
-	private static PieDataset createDataset() {	
+	private static PieDataset createDataset() {	//Create a dataset
 		DefaultPieDataset dataset = new DefaultPieDataset();
 		Integer index = 0;
 		for (Integer value : data) {
-			dataset.setValue(slice_names.get(index), value);
+			dataset.setValue(slice_names.get(index), value); //Add values to the dataset
 			index += 1;
 		}
 		return dataset;
@@ -47,20 +47,22 @@ public class PieChart extends ApplicationFrame {
 	
 
 	public static JPanel createDemoPanel() {
-		JFreeChart chart = createChart(createDataset());			
-		return new ChartPanel(chart);
+		JFreeChart chart = createChart(createDataset());	
+		//return new ChartPanel(chart);
+		return new ChartPanel(chart, 100, 100, 200, 200, 400, 400, false, false, false, false, false, false);
 	}
 
 	public void drawScreen() {
 		if (Lists.PieCharts.isEmpty() == false) {
-			for (PieChart chart: Lists.PieCharts) {  //Close the old piechart
+			for (PieChart chart: Lists.PieCharts) {  //Close the old pie chart
+				chart.setVisible(false);
 				chart.dispose();				
 			}
 			Lists.PieCharts.clear();
 		}
 		PieChart chart = new PieChart(title, data, slice_names);		
-		chart.setSize(1200, 800);		
-		chart.setVisible(true);		
+		chart.setSize(1200, 1000);		
+		chart.setVisible(true);			
 			
 		Lists.PieCharts.add(chart); 
 	}

@@ -24,7 +24,7 @@ public class Screens extends JFrame {
 	private static ArrayList<Integer> data_list = new ArrayList<>();
 	private static ArrayList<String> region_names = new ArrayList<>();
 	private static ArrayList<String> crime_types = new ArrayList<>();
-	static String title;
+	String title;
 	String text_vertical;
 	String text_horizontal;
 	boolean bar_text;
@@ -57,13 +57,13 @@ public class Screens extends JFrame {
 		backbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				Menumain.main(null);
+				Menumain.main(null); //Return back to the mainmenu when the backbutton is clicked
 			}
 		});
 		frame.add(backbutton);
 		PieChart chart = null;
 		if (bar_text) {
-			chart = new PieChart(title, data_list, crime_types);
+			chart = new PieChart(title, data_list, crime_types); //Create a piechart
 		} else {
 			chart = new PieChart(title, data_list, region_names);
 		}
@@ -81,8 +81,8 @@ public class Screens extends JFrame {
 
 	}
 
-	private void run_queries() throws SQLException {
-		Database.dataConnect();
+	private void run_queries() throws SQLException {		
+		Database.dataConnect(); //Create database connection
 		if (Database.con != null) {
 			Statement st = Database.con.createStatement();
 			
@@ -92,9 +92,9 @@ public class Screens extends JFrame {
 					ResultSetMetaData rsMetaData = rs.getMetaData();
 					int numberOfColumns = rsMetaData.getColumnCount();	
 					while (rs.next()) {						
-						region_names.add(rs.getString(1));
-						data_list.add(Integer.parseInt(rs.getString(2)));
-						crime_types.add(rsMetaData.getTableName(numberOfColumns));
+						region_names.add(rs.getString(1)); //Add the names for the regions to a list
+						data_list.add(Integer.parseInt(rs.getString(2))); //Add data(values) to a list
+						crime_types.add(rsMetaData.getTableName(numberOfColumns)); //Get the table names and add it to the crime_types list
 					}
 
 				}
@@ -104,7 +104,7 @@ public class Screens extends JFrame {
 					while (rs.next()) {
 						ResultSetMetaData rsMetaData = rs.getMetaData();
 						int numberOfColumns = rsMetaData.getColumnCount();	
-						if (numberOfColumns == 1) {
+						if (numberOfColumns == 1) { //the query for Safety Levels only returns 1 column
 							data_list.add(Integer.parseInt(rs.getString(1)));	
 						} else {
 							region_names.add(rs.getString(1));
@@ -115,12 +115,11 @@ public class Screens extends JFrame {
 			}
 
 			Lists.graphs.clear();
-
 			Graph graph = new Graph(700, 800, 100, 100, data_list, 20, title, text_vertical, text_horizontal,
 					region_names, crime_types);
 
 			graph.drawScreen();
-			Lists.frames.get(0).revalidate();
+			Lists.frames.get(0).revalidate(); //Update the screen
 		} else {
 			System.out.println("No database connection");
 
@@ -128,9 +127,9 @@ public class Screens extends JFrame {
 
 	}
 
-	private static void fill__queries(String title) {
+	private static void fill__queries(String title) { //Add queries depending on the screen title
 		Lists.queries.clear();
-		if (title == "Max Crime Percentage") {
+		if (title == "Max crime percentage") {
 			Lists.queries.add(
 					"SELECT * FROM Bicycle_theft WHERE Crime_percentage IN (SELECT MAX(Crime_percentage) FROM Bicycle_theft)");
 			Lists.queries.add(
@@ -145,11 +144,11 @@ public class Screens extends JFrame {
 					"SELECT * FROM Reported_pickpocketing WHERE Report_percentage IN (SELECT MAX(Report_percentage) FROM Reported_pickpocketing)");
 			Lists.queries.add(
 					"SELECT * FROM Reported_theft_from_other_vehicles WHERE Report_percentage IN (SELECT MAX(Report_percentage) FROM Reported_theft_from_other_vehicles)");
-		} else if (title == "AvgIncome") {
+		} else if (title == "Average Income") {
 			Lists.queries.add("SELECT * FROM avgincome");
-		} else if (title == "HouseHolds") {
+		} else if (title == "Households") {
 			Lists.queries.add("SELECT * FROM Households");
-		} else if (title == "Safety Levels") {
+		} else if (title == "Crime levels") {
 			region_names.clear();
 			region_names.add("Charlois");
 			region_names.add("Delfshaven");
